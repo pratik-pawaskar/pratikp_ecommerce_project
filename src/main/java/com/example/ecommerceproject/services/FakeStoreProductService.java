@@ -36,4 +36,26 @@ public class FakeStoreProductService implements ProductService{
                 FakeStoreProductDTO.class);
         return fspd.getProduct();
     }
+
+    public Product deleteProduct(long id) {
+        FakeStoreProductDTO fspd = restTemplate.getForObject(
+                "https://fakestoreapi.com/products/"+id,
+                FakeStoreProductDTO.class);
+        return fspd.getProduct();
+    }
+
+    public Product updateProduct(Long id, String title, Double price,
+                                 String description, String imageUrl, Category category) {
+        FakeStoreProductDTO fsdto = new FakeStoreProductDTO();
+        fsdto.setTitle(title);
+        fsdto.setPrice(price);
+        fsdto.setDescription(description);
+        fsdto.setImage(imageUrl);
+        fsdto.setCategory(category.getTitle());
+        FakeStoreProductDTO fspd = restTemplate.postForObject(
+                "https://fakestoreapi.com/products/"+id,
+                fsdto,
+                FakeStoreProductDTO.class);
+        return fspd.getProduct();
+    }
 }

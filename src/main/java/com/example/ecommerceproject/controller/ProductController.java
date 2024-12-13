@@ -27,6 +27,21 @@ public class ProductController {
         return pr;
     }
 
+    @DeleteMapping(value="/product/{id}")
+    public Product deleteProduct(@PathVariable("id") Long id){
+        Product pr = productService.deleteProduct(id);
+        return pr;
+    }
+
+    @PutMapping(value="/product/{id}")
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
+        Product pr = productService.updateProduct(
+                id, product.getTitle(), product.getPrice(), product.getDescription(),
+                product.getImageUrl(), product.getCategory());
+        return pr;
+    }
+
+
     @RequestMapping(value="/hello/{username}", method=RequestMethod.GET)
     public String sayHello(@PathVariable("username") String name){
         return "Hello "+name+".How are you?";
