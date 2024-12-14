@@ -1,9 +1,15 @@
 package com.example.ecommerceproject.controller;
 
+import com.example.ecommerceproject.dto.ErrorDTO;
+import com.example.ecommerceproject.exceptions.ProductServiceException;
 import com.example.ecommerceproject.models.Category;
 import com.example.ecommerceproject.models.Product;
 import com.example.ecommerceproject.services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -14,36 +20,43 @@ public class ProductController {
     }
 
     @GetMapping(value="/product/{id}")
-    public Product getProductById(@PathVariable("id") Long id){
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductServiceException {
         Product pr = productService.getSingleProduct(id);
-        return pr;
+        ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
+        return response;
     }
 
     @PostMapping(value="/product/")
-    public Product addProduct(@RequestBody Product product){
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) throws ProductServiceException{
         Product pr = productService.addProduct(
                 product.getTitle(), product.getPrice(), product.getDescription(),
                 product.getImageUrl(), product.getCategory());
-        return pr;
+        ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
+        return response;
     }
 
     @DeleteMapping(value="/product/{id}")
-    public Product deleteProduct(@PathVariable("id") Long id){
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) throws ProductServiceException{
         Product pr = productService.deleteProduct(id);
-        return pr;
+        ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
+        return response;
     }
 
     @PutMapping(value="/product/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id,
+                                                 @RequestBody Product product) throws ProductServiceException{
         Product pr = productService.updateProduct(
                 id, product.getTitle(), product.getPrice(), product.getDescription(),
                 product.getImageUrl(), product.getCategory());
-        return pr;
+        ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
+        return response;
     }
 
-
-    @RequestMapping(value="/hello/{username}", method=RequestMethod.GET)
-    public String sayHello(@PathVariable("username") String name){
-        return "Hello "+name+".How are you?";
+    @ExceptionHandler(ProductServiceException.class)
+    public ResponseEntity<ErrorDTO> productServiceErrorHandler(Exception e){
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setError(e.getMessage());
+        ResponseEntity<ErrorDTO> response = new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
+        return response;
     }
 }
