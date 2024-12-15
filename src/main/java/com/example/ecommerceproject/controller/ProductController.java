@@ -36,9 +36,9 @@ public class ProductController {
     }
 
     @DeleteMapping(value="/product/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) throws ProductServiceException{
-        Product pr = productService.deleteProduct(id);
-        ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) throws ProductServiceException{
+        productService.deleteProduct(id);
+        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.OK);
         return response;
     }
 
@@ -49,6 +49,13 @@ public class ProductController {
                 id, product.getTitle(), product.getPrice(), product.getDescription(),
                 product.getImageUrl(), product.getCategory());
         ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
+        return response;
+    }
+
+    @GetMapping(value="/products")
+    public ResponseEntity<List<Product>> getAllProducts() throws ProductServiceException{
+        List<Product> product_list= productService.getAllProducts();
+        ResponseEntity<List<Product>> response = new ResponseEntity<List<Product>>(product_list, HttpStatus.OK);
         return response;
     }
 
