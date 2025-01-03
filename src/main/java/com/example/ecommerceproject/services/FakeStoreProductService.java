@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("FakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
 
     private RestTemplate restTemplate;
@@ -34,13 +34,13 @@ public class FakeStoreProductService implements ProductService{
     }
 
     public Product addProduct(String title, Double price, String description,
-                              String imageUrl, Category category) throws ProductServiceException{
+                              String imageUrl, String category) throws ProductServiceException{
         FakeStoreProductDTO fsdto = new FakeStoreProductDTO();
         fsdto.setTitle(title);
         fsdto.setPrice(price);
         fsdto.setDescription(description);
         fsdto.setImage(imageUrl);
-        fsdto.setCategory(category.getTitle());
+        fsdto.setCategory(category);
         FakeStoreProductDTO fspd = restTemplate.postForObject(
                 "https://fakestoreapi.com/products",
                 fsdto,
@@ -51,19 +51,20 @@ public class FakeStoreProductService implements ProductService{
         return fspd.getProduct();
     }
 
-    public void deleteProduct(long id) throws ProductServiceException{
+    public Product deleteProduct(long id) throws ProductServiceException{
         System.out.println("Attempting to delete product with id: "+id);
         restTemplate.delete("https://fakestoreapi.com/products/"+id);
+        return null;
     }
 
     public Product updateProduct(Long id, String title, Double price, String description,
-                                 String imageUrl, Category category) throws ProductServiceException{
+                                 String imageUrl, String category) throws ProductServiceException{
         FakeStoreProductDTO fsdto = new FakeStoreProductDTO();
         fsdto.setTitle(title);
         fsdto.setPrice(price);
         fsdto.setDescription(description);
         fsdto.setImage(imageUrl);
-        fsdto.setCategory(category.getTitle());
+        fsdto.setCategory(category);
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<FakeStoreProductDTO> requestEntity = new HttpEntity<FakeStoreProductDTO>(fsdto, headers);

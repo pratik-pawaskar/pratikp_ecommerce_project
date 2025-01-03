@@ -1,32 +1,26 @@
 package com.example.ecommerceproject.models;
 
-public class Product {
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
-    private Long id;
+@Entity
+public class Product extends BaseModel{
     private String title;
     private Double price;
     private String description;
     private String imageUrl;
+    @ManyToOne
     private Category category;
 
     public Product() {}
 
-    public Product(Long id, String title, double price,
+    public Product(String title, double price,
                    String description, String imageUrl, Category category) {
-        this.id = id;
         this.title = title;
         this.price = price;
         this.description = description;
         this.imageUrl = imageUrl;
         this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {

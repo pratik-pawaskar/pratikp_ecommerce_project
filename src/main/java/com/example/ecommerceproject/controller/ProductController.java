@@ -5,6 +5,7 @@ import com.example.ecommerceproject.exceptions.ProductServiceException;
 import com.example.ecommerceproject.models.Category;
 import com.example.ecommerceproject.models.Product;
 import com.example.ecommerceproject.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("ProductService_MyDB") ProductService productService) {
         this.productService = productService;
     }
 
@@ -30,15 +31,15 @@ public class ProductController {
     public ResponseEntity<Product> addProduct(@RequestBody Product product) throws ProductServiceException{
         Product pr = productService.addProduct(
                 product.getTitle(), product.getPrice(), product.getDescription(),
-                product.getImageUrl(), product.getCategory());
+                product.getImageUrl(), product.getCategory().getTitle());
         ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
         return response;
     }
 
     @DeleteMapping(value="/product/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) throws ProductServiceException{
-        productService.deleteProduct(id);
-        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) throws ProductServiceException{
+        Product pr = productService.deleteProduct(id);
+        ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
         return response;
     }
 
@@ -47,7 +48,7 @@ public class ProductController {
                                                  @RequestBody Product product) throws ProductServiceException{
         Product pr = productService.updateProduct(
                 id, product.getTitle(), product.getPrice(), product.getDescription(),
-                product.getImageUrl(), product.getCategory());
+                product.getImageUrl(), product.getCategory().getTitle());
         ResponseEntity<Product> response = new ResponseEntity<>(pr, HttpStatus.OK);
         return response;
     }

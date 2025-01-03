@@ -1,22 +1,15 @@
 package com.example.ecommerceproject.models;
 
-public class Category {
-    private int id;
+import jakarta.persistence.Entity;
+
+@Entity
+public class Category extends BaseModel{
     private String title;
 
     public Category() {}
 
-    public Category(int id, String name) {
-        this.id = id;
+    public Category(String title) {
         this.title = title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
