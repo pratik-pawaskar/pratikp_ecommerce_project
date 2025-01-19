@@ -23,4 +23,10 @@ public class PaymentsController {
         ResponseEntity<String> response = new ResponseEntity<>(url, HttpStatus.OK);
         return response;
     }
+
+    @PostMapping("/webhook")
+    public void handleWebhook() {
+        System.out.println("Webhook received here");
+        return;
+    }
 }
