@@ -4,6 +4,7 @@ import com.example.ecommerceproject.dto.FakeStoreProductDTO;
 import com.example.ecommerceproject.exceptions.ProductServiceException;
 import com.example.ecommerceproject.models.Category;
 import com.example.ecommerceproject.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -78,15 +79,19 @@ public class FakeStoreProductService implements ProductService{
         return fspd.getProduct();
     }
 
-    public List<Product> getAllProducts() throws ProductServiceException{
-        FakeStoreProductDTO[] fspd_list = restTemplate.getForObject(
-                "https://fakestoreapi.com/products", FakeStoreProductDTO[].class
-        );
-        List<Product> product_list = new ArrayList<Product>();
-        for (FakeStoreProductDTO fspd: fspd_list){
-            product_list.add(fspd.getProduct());
-        }
-        System.out.println("Found all products inside getall: "+product_list);
-        return product_list;
+//    public List<Product> getAllProducts() throws ProductServiceException{
+//        FakeStoreProductDTO[] fspd_list = restTemplate.getForObject(
+//                "https://fakestoreapi.com/products", FakeStoreProductDTO[].class
+//        );
+//        List<Product> product_list = new ArrayList<Product>();
+//        for (FakeStoreProductDTO fspd: fspd_list){
+//            product_list.add(fspd.getProduct());
+//        }
+//        System.out.println("Found all products inside getall: "+product_list);
+//        return product_list;
+//    }
+
+    public Page<Product> getAllProducts(int pageNumber, int pageSize, String fieldName) throws ProductServiceException{
+        return null;
     }
 }

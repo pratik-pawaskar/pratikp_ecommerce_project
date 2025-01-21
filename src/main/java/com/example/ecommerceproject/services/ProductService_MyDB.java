@@ -5,6 +5,10 @@ import com.example.ecommerceproject.models.Category;
 import com.example.ecommerceproject.models.Product;
 import com.example.ecommerceproject.repository.CategoryRepository;
 import com.example.ecommerceproject.repository.ProductRepository;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -115,12 +119,18 @@ public class ProductService_MyDB implements ProductService {
         }
     }
 
+//    @Override
+//    public List<Product> getAllProducts() throws ProductServiceException {
+//        List<Product> productsList = productRepository.findByIsDeleted(false);
+//        if (productsList.isEmpty()){
+//            throw new ProductServiceException("No products found");
+//        }
+//        return productsList;
+//    }
+
     @Override
-    public List<Product> getAllProducts() throws ProductServiceException {
-        List<Product> productsList = productRepository.findByIsDeleted(false);
-        if (productsList.isEmpty()){
-            throw new ProductServiceException("No products found");
-        }
-        return productsList;
+    public Page<Product> getAllProducts(int pageNumber, int pageSize, String fieldName) throws ProductServiceException {
+        return productRepository.findByIsDeleted(
+                false, PageRequest.of(pageNumber, pageSize, Sort.by(fieldName).ascending()));
     }
 }

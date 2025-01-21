@@ -6,6 +6,7 @@ import com.example.ecommerceproject.models.Category;
 import com.example.ecommerceproject.models.Product;
 import com.example.ecommerceproject.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +54,19 @@ public class ProductController {
         return response;
     }
 
+//    @GetMapping(value="/products")
+//    public ResponseEntity<List<Product>> getAllProducts() throws ProductServiceException{
+//        List<Product> product_list= productService.getAllProducts();
+//        ResponseEntity<List<Product>> response = new ResponseEntity<List<Product>>(product_list, HttpStatus.OK);
+//        return response;
+//    }
+
     @GetMapping(value="/products")
-    public ResponseEntity<List<Product>> getAllProducts() throws ProductServiceException{
-        List<Product> product_list= productService.getAllProducts();
-        ResponseEntity<List<Product>> response = new ResponseEntity<List<Product>>(product_list, HttpStatus.OK);
+    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam("pageNumber") int pageNumber,
+                                                        @RequestParam("pageSize") int pageSize,
+                                                        @RequestParam("fieldName") String fieldName) throws ProductServiceException{
+        Page<Product> products_page = productService.getAllProducts(pageNumber, pageSize, fieldName);
+        ResponseEntity<Page<Product>> response = new ResponseEntity<>(products_page, HttpStatus.OK);
         return response;
     }
 
