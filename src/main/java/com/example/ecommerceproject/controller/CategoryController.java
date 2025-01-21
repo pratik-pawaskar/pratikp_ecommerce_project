@@ -56,13 +56,5 @@ public class CategoryController {
         ResponseEntity<List<Category>> response = new ResponseEntity<>(cats, HttpStatus.OK);
         return response;
     }
-
-    @ExceptionHandler(CategoryServiceException.class)
-    public ResponseEntity<ErrorDTO> categoryServiceErrorHandler(Exception e){
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setError(e.getMessage());
-        ResponseEntity<ErrorDTO> response = new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
-        return response;
-    }
 }
 

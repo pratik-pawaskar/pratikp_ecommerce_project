@@ -69,12 +69,4 @@ public class ProductController {
         ResponseEntity<Page<Product>> response = new ResponseEntity<>(products_page, HttpStatus.OK);
         return response;
     }
-
-    @ExceptionHandler(ProductServiceException.class)
-    public ResponseEntity<ErrorDTO> productServiceErrorHandler(Exception e){
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setError(e.getMessage());
-        ResponseEntity<ErrorDTO> response = new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
-        return response;
-    }
 }
