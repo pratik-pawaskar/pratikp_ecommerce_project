@@ -1,4 +1,4 @@
-package com.example.ecommerceproject.restTemp;
+package com.example.ecommerceproject.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
